@@ -1,0 +1,8 @@
+### 게시글 작성
+POST http://localhost:8080/articles
+Content-Type: application/json
+
+{
+  "title": "blog title",
+  "content": "blog content"
+}
