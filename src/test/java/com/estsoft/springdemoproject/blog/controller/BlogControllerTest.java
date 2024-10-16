@@ -130,5 +130,7 @@ class BlogControllerTest {
         resultActions.andExpect(status().isOk());
         List<Article> articleList = repository.findAll();
         assertThat(articleList).isEmpty();
+
+
     }
 }

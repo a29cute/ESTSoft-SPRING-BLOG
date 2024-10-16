@@ -16,3 +16,12 @@ GET http://localhost:8080/articles/{{id}}
 
 ### 게시글 단건 삭제 API
 DELETE http://localhost:8080/articles/{{id}}
+
+### 게시글 단건 수정 API
+PUT localhost:8080/articles/{{id}}
+Content-Type: application/json
+
+{
+  "title": "변경된 제목",
+  "content": "변경된 내용"
+}
