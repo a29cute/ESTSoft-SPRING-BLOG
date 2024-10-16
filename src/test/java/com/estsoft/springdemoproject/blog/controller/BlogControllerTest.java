@@ -2,6 +2,7 @@ package com.estsoft.springdemoproject.blog.controller;
 
 import com.estsoft.springdemoproject.blog.domain.dto.AddArticleRequest;
 import com.estsoft.springdemoproject.blog.domain.Article;
+import com.estsoft.springdemoproject.blog.domain.dto.UpdateArticleRequest;
 import com.estsoft.springdemoproject.blog.repository.BlogRepository;
 import com.estsoft.springdemoproject.blog.service.BlogService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -112,7 +114,7 @@ class BlogControllerTest {
                 .accept(MediaType.APPLICATION_JSON));
         resultActions.andExpect(status().isBadRequest());
 
-        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, ()-> blogService.findById(1L));
+        assertThrows(IllegalArgumentException.class, () -> blogService.findById(1L));
     }
 
     // todo 블로그 글 삭제 API 호출 테스트
@@ -130,7 +132,43 @@ class BlogControllerTest {
         resultActions.andExpect(status().isOk());
         List<Article> articleList = repository.findAll();
         assertThat(articleList).isEmpty();
+    }
 
+    @Test
+    public void updateArticle() throws Exception {
+        Article article = repository.save(new Article("blog title", "blog content"));
+        Long id = article.getId();
 
+        // 수정 데이터(object) -> json
+        UpdateArticleRequest request = new UpdateArticleRequest("변경 제목", "변경 내용");
+        String updateJsonContent = objectMapper.writeValueAsString(request);
+
+        ResultActions resultActions = mockMvc.perform(put("/articles/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(updateJsonContent)
+        );
+
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(request.getTitle()))
+                .andExpect(jsonPath("$.content").value(request.getContent()));
+    }
+
+    // 수정API 호출시 예외 발생했을 경우(수정하려는 id 존재하지 않음) = status code 검증, Exception 검증
+    @Test
+    public void updateArticleException() throws Exception {
+        // given : id, requestBody
+        Long notExistsId = 1000L;
+        UpdateArticleRequest request = new UpdateArticleRequest("title", "content");
+        String requestBody = objectMapper.writeValueAsString(request);
+
+        // when : 수정 API 호출    (/articles/{id}, requestBody)
+        ResultActions resultActions = mockMvc.perform(put("/articles/{id}", notExistsId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestBody));
+
+        // then : 400 Bad Request 검증, Exception 검증
+        resultActions.andExpect(status().isBadRequest());
+        assertThrows(IllegalArgumentException.class, () -> blogService.update(notExistsId, request));
+        assertThrows(IllegalArgumentException.class, () -> blogService.findById(notExistsId));
     }
 }
