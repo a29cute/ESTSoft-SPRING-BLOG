@@ -1,6 +1,6 @@
 package com.estsoft.springdemoproject.blog.controller;
 
-import com.estsoft.springdemoproject.blog.domain.AddArticleRequest;
+import com.estsoft.springdemoproject.blog.domain.dto.AddArticleRequest;
 import com.estsoft.springdemoproject.blog.domain.Article;
 import com.estsoft.springdemoproject.blog.repository.BlogRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +40,7 @@ class BlogControllerTest {
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        repository.deleteAll();
     }
 
     // POST /articles API 테스트
@@ -65,4 +66,35 @@ class BlogControllerTest {
         assertThat(articleList.size()).isEqualTo(1);
     }
 
+    // 블로그 게시글 조회 API
+    @Test
+    public void findAll() throws Exception {
+        // given : 조회 API에 필요한 값 세팅
+        Article article = repository.save(new Article("title", "content"));
+
+        // when : 조회 API
+        ResultActions resultActions = mockMvc.perform(get("/articles")
+                .accept(MediaType.APPLICATION_JSON));
+
+        // then : API 호출 결과 검증
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].title").value(article.getTitle()))
+                .andExpect(jsonPath("$[0].content").value(article.getContent()));
+    }
+
+    // 블로그 단건 조회 API 테스트 : data insert (id = 1), GET/articles/1
+    @Test
+    public void findOne() throws Exception {
+        // given: data insert
+        Article article = repository.save(new Article("title", "content"));
+
+        // when: API 호출
+        ResultActions resultActions = mockMvc.perform(get("/articles/{id}", article.getId())
+                .accept(MediaType.APPLICATION_JSON));
+
+        // then: API 호출 결과 검증
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.title").value(article.getTitle()))
+                .andExpect(jsonPath("$.content").value(article.getContent()));
+    }
 }

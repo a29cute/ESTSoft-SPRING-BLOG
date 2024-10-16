@@ -6,3 +6,10 @@ Content-Type: application/json
   "title": "blog title",
   "content": "blog content"
 }
+
+### 게시글 조회 API
+GET http://localhost:8080/articles
+
+### 게시글 단건 조회 API
+@id=3
+GET http://localhost:8080/articles/{{id}}
