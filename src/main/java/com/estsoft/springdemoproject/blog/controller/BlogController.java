@@ -4,6 +4,7 @@ import com.estsoft.springdemoproject.blog.domain.dto.AddArticleRequest;
 import com.estsoft.springdemoproject.blog.domain.Article;
 import com.estsoft.springdemoproject.blog.domain.dto.ArticleResponse;
 import com.estsoft.springdemoproject.blog.service.BlogService;
+import jakarta.persistence.Entity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,6 @@ public class BlogController {
     public ResponseEntity<ArticleResponse> findById(@PathVariable Long id) {
         Article article = service.findById(id); // 단건 조회
         // Article -> ArticleResponse 변환
-        // ArticleResponse response = new ArticleResponse(article.getId(), article.getTitle(), article.getContent());
         return ResponseEntity.ok(article.convert());
     }
 
@@ -53,5 +53,10 @@ public class BlogController {
     public ResponseEntity<Void> deleteById(@PathVariable Long id){
         service.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<String> handeIllegalArgumentException(IllegalArgumentException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }

@@ -3,6 +3,7 @@ package com.estsoft.springdemoproject.blog.controller;
 import com.estsoft.springdemoproject.blog.domain.dto.AddArticleRequest;
 import com.estsoft.springdemoproject.blog.domain.Article;
 import com.estsoft.springdemoproject.blog.repository.BlogRepository;
+import com.estsoft.springdemoproject.blog.service.BlogService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,7 +18,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -36,6 +37,9 @@ class BlogControllerTest {
 
     @Autowired
     private BlogRepository repository;
+
+    @Autowired
+    private BlogService blogService;
 
     @BeforeEach
     public void setUp() {
@@ -99,5 +103,32 @@ class BlogControllerTest {
                 .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.title").value(article.getTitle()))
                 .andExpect(jsonPath("$.content").value(article.getContent()));
+    }
+
+    // 단건 조회 API - id에 해당하는 자원이 없을 경우 (4xx) 예외처리 검증
+    @Test
+    public void findOneException() throws Exception {
+        ResultActions resultActions = mockMvc.perform(get("/articles/{id}", 1L)
+                .accept(MediaType.APPLICATION_JSON));
+        resultActions.andExpect(status().isBadRequest());
+
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, ()-> blogService.findById(1L));
+    }
+
+    // todo 블로그 글 삭제 API 호출 테스트
+    @Test
+    public void deleteTest() throws Exception {
+        Article article = repository.save(new Article("blog title", "blog content"));
+        Long id = article.getId();
+
+        // when: API 호출
+        ResultActions resultActions = mockMvc.perform(delete("/articles/{id}", id)
+                .accept(MediaType.APPLICATION_JSON));
+
+        // then: API 호출 결과 검증
+        // -> given 절에서 추가한 데이터가 그대로 json 형태로 넘어오는지 확인
+        resultActions.andExpect(status().isOk());
+        List<Article> articleList = repository.findAll();
+        assertThat(articleList).isEmpty();
     }
 }
