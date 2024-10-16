@@ -34,4 +34,11 @@ public class BlogService {
                 .orElseThrow(() -> new IllegalArgumentException("not found id: " + id));
 
     }
+
+    public void deleteById(Long id) {
+        if (!repository.existsById(id)) {
+            throw new IllegalArgumentException("not found id: " + id);
+        }
+        repository.deleteById(id);
+    }
 }

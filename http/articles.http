@@ -13,3 +13,6 @@ GET http://localhost:8080/articles
 ### 게시글 단건 조회 API
 @id=3
 GET http://localhost:8080/articles/{{id}}
+
+### 게시글 단건 삭제 API
+DELETE http://localhost:8080/articles/{{id}}

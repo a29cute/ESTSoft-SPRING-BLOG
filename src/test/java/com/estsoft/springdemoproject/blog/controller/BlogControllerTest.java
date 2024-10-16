@@ -86,14 +86,17 @@ class BlogControllerTest {
     @Test
     public void findOne() throws Exception {
         // given: data insert
-        Article article = repository.save(new Article("title", "content"));
+        Article article = repository.save(new Article("blog title", "blog content"));
+        Long id = article.getId();
 
         // when: API 호출
-        ResultActions resultActions = mockMvc.perform(get("/articles/{id}", article.getId())
+        ResultActions resultActions = mockMvc.perform(get("/articles/{id}", id)
                 .accept(MediaType.APPLICATION_JSON));
 
         // then: API 호출 결과 검증
+        // -> given 절에서 추가한 데이터가 그대로 json 형태로 넘어오는지 확인
         resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id))
                 .andExpect(jsonPath("$.title").value(article.getTitle()))
                 .andExpect(jsonPath("$.content").value(article.getContent()));
     }
