@@ -1,5 +1,5 @@
 ### 게시글 작성
-POST http://localhost:8080/articles
+POST http://localhost:8080/api/articles
 Content-Type: application/json
 
 {
@@ -8,17 +8,17 @@ Content-Type: application/json
 }
 
 ### 게시글 조회 API
-GET http://localhost:8080/articles
+GET http://localhost:8080/api/articles
 
 ### 게시글 단건 조회 API
 @id=3
-GET http://localhost:8080/articles/{{id}}
+GET http://localhost:8080/api/articles/{{id}}
 
 ### 게시글 단건 삭제 API
-DELETE http://localhost:8080/articles/{{id}}
+DELETE http://localhost:8080/api/articles/{{id}}
 
 ### 게시글 단건 수정 API
-PUT localhost:8080/articles/{{id}}
+PUT localhost:8080/articles/api/{{id}}
 Content-Type: application/json
 
 {
