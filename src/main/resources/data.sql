@@ -8,7 +8,7 @@
 -- INSERT INTO member (name) VALUES ('이름3');
 --
 -- select * from member;
-
+drop table if exists article cascade;
 INSERT INTO article (title, content, created_at, updated_at)
 VALUES
 ('제목1', '내용1', now(), now()),
