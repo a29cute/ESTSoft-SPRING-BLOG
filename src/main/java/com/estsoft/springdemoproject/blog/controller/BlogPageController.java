@@ -6,6 +6,7 @@ import com.estsoft.springdemoproject.blog.service.BlogService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -13,17 +14,26 @@ import java.util.List;
 public class BlogPageController {
     private final BlogService blogService;
 
-    public BlogPageController(BlogService blogService){
+    public BlogPageController(BlogService blogService) {
         this.blogService = blogService;
     }
 
     @GetMapping("/articles")
-        public String getArticles(Model model) {
-            List<ArticleViewResponse> articles = blogService.findAll().stream()
-                    .map(ArticleViewResponse::new)
-                    .toList();
-            model.addAttribute("articles", articles);   // model에 블로그 글 리스트 저장
+    public String getArticles(Model model) {
+        List<ArticleViewResponse> articles = blogService.findAll().stream()
+                .map(ArticleViewResponse::new)
+                .toList();
+        model.addAttribute("articles", articles);   // model에 블로그 글 리스트 저장
 
-            return "articleList";   // articleList.html라는 뷰 조회
-        }
+        return "articleList";   // articleList.html라는 뷰 조회
+    }
+
+    @GetMapping("/articles/{id}")
+    public String showDetails(@PathVariable Long id, Model model) {
+        Article article = blogService.findById(id);
+        model.addAttribute("article", new ArticleViewResponse(article));
+
+        return "article";
+    }
+
 }

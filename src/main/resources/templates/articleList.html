@@ -12,14 +12,15 @@
 </div>
 
 <div class="container">
-    <div class="row-6" th:each="item : ${articles}">  <!-- articles 갯수 만큼 반복 -->
+    <div class="row-6" th:each="item : ${articles}">
         <div class="card">
-            <div class="card-header" th:text="${item.id}">  <!-- item의 id 출력-->
+            <div class="card-header" th:text="${item.id}">
             </div>
             <div class="card-body">
                 <h5 class="card-title" th:text="${item.title}"></h5>
                 <p class="card-text" th:text="${item.content}"></p>
-                <a href="#" class="btn btn-primary">보러가기</a>
+                <!-- 이 부분 수정 -->
+                <a th:href="@{/articles/{id}(id=${item.id})}" class="btn btn-primary">보러가기</a>
             </div>
         </div>
         <br>
@@ -27,4 +28,3 @@
 </div>
 
 </body>
-</html>
