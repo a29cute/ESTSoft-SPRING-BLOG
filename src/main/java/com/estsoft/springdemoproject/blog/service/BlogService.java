@@ -43,7 +43,7 @@ public class BlogService {
 
     @Transactional
     public Article update(Long id, UpdateArticleRequest request) {
-        Article article = findById(id);       // 수정하고싶은 article객체 가져오기
+        Article article = findById(id);       // 수정하고싶은 article 객체 가져오기
         article.update(request.getTitle(), request.getContent());
         return article;
     }
