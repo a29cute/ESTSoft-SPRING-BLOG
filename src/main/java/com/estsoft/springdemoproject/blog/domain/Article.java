@@ -28,7 +28,7 @@ public class Article {
 
     @CreatedDate
     @Column
-    private LocalDateTime createdAt;
+    private LocalDateTime createdAt;   // created_at
 
     @LastModifiedDate
     @Column
@@ -41,7 +41,6 @@ public class Article {
         this.content = content;
     }
 
-    // Article -> ArticleResponse 변환 메서드
     public ArticleResponse convert() {
         return new ArticleResponse(id, title, content);
     }
