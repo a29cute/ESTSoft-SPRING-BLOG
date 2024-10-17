@@ -1,15 +1,15 @@
-drop table if exists member cascade;
-create table member;
+-- drop table if exists member cascade;
+-- create table member;
+--
+-- alter table member add name varchar(255);
+--
+-- INSERT INTO member (name) VALUES ('이름1');
+-- INSERT INTO member (name) VALUES ('이름2');
+-- INSERT INTO member (name) VALUES ('이름3');
+--
+-- select * from member;
 
-alter table member add name varchar(255);
-
-INSERT INTO member (name) VALUES ('이름1');
-INSERT INTO member (name) VALUES ('이름2');
-INSERT INTO member (name) VALUES ('이름3');
-
-select * from member;
-
-INSERT INTO article (title, content, created_at, update_at)
+INSERT INTO article (title, content, created_at, updated_at)
 VALUES
 ('제목1', '내용1', now(), now()),
 ('제목2', '내용2', now(), now()),
