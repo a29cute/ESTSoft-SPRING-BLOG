@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>book</title>
+</head>
+<body>
+<!-- book 추가할 수 있는 폼 -->
+<h3>책 정보 입력</h3>
+<form th:action="@{/books/add}" method="post">
+  <table>
+    <tbody>
+    <tr>
+      <td>id</td>
+      <td><input type="text" name="id"></td>
+    </tr>
+    <tr>
+      <td>name</td>
+      <td><input type="text" name="name"></td>
+    </tr>
+    <tr>
+      <td>author</td>
+      <td><input type="text" name="author"></td>
+    </tr>
+    <tr>
+      <td colspan="2">
+        <button type="submit">추가</button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</form>
+
+<!-- 등록된 책 전체 목록 -->
+<h3>등록된 책 목록</h3>
+<ul>
+  <li th:each="book: ${bookList}">
+    <a th:href="@{/books/{id}(id = ${book.id})}"><span th:text="${book.id}"></span></a>
+  </li>
+</ul>
+
+</body>
+</html>

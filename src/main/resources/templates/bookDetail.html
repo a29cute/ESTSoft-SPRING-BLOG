@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="kr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 특정 책 조회 -->
+<table>
+  <tbody>
+  <tr>
+    <td>id</td>
+    <td>name</td>
+    <td>author</td>
+  </tr>
+  <tr>
+    <td th:text="${book.id}"></td>
+    <td th:text="${book.name}"></td>
+    <td th:text="${book.author}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

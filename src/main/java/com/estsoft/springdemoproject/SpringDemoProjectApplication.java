@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @EnableJpaAuditing
-@SpringBootApplication  // @ComponentScan도 포함하는 어노테이션
+@SpringBootApplication
 public class SpringDemoProjectApplication {
 
     public static void main(String[] args) {

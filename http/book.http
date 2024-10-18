@@ -1,0 +1,12 @@
+POST http://localhost:8080/books/add
+Content-Type: application/json
+
+{
+  "id": "id",
+  "name": "name",
+  "author": "author"
+}
+
+
+### 책 목록 조회
+GET http://localhost:8080/books
