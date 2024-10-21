@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.List;
 
 @Table(name = "users")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class User implements UserDetails {
@@ -29,8 +28,11 @@ public class User implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    public User() {
+    }
+
     @Builder
-    public User(String email, String password, String auth) {
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
     }
