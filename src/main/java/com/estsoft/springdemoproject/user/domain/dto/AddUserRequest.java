@@ -1,4 +1,4 @@
-package com.estsoft.springdemoproject.user.dto;
+package com.estsoft.springdemoproject.user.domain.dto;
 
 public class AddUserRequest {
     private String email;

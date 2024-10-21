@@ -1,7 +1,7 @@
 package com.estsoft.springdemoproject.user.service;
 
 import com.estsoft.springdemoproject.user.domain.User;
-import com.estsoft.springdemoproject.user.dto.AddUserRequest;
+import com.estsoft.springdemoproject.user.domain.dto.AddUserRequest;
 import com.estsoft.springdemoproject.user.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;

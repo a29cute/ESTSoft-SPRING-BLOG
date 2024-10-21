@@ -1,6 +1,6 @@
 package com.estsoft.springdemoproject.user.controller;
 
-import com.estsoft.springdemoproject.user.dto.AddUserRequest;
+import com.estsoft.springdemoproject.user.domain.dto.AddUserRequest;
 import com.estsoft.springdemoproject.user.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
