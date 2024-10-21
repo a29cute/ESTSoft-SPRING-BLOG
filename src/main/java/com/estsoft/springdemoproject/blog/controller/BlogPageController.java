@@ -4,6 +4,10 @@ import com.estsoft.springdemoproject.blog.domain.Article;
 import com.estsoft.springdemoproject.blog.domain.dto.ArticleResponse;
 import com.estsoft.springdemoproject.blog.domain.dto.ArticleViewResponse;
 import com.estsoft.springdemoproject.blog.service.BlogService;
+import com.estsoft.springdemoproject.user.domain.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +35,10 @@ public class BlogPageController {
     }
 
     @GetMapping("/articles/{id}")
-    public String showDetails(@PathVariable Long id, Model model) {
+    public String showDetails(@PathVariable Long id, Model model, @AuthenticationPrincipal User user) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User principal = (User)authentication.getPrincipal();
+
         Article article = blogService.findById(id);
         model.addAttribute("article", new ArticleViewResponse(article));
         return "article";

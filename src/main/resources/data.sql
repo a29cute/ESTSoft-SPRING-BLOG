@@ -18,3 +18,6 @@ INSERT INTO book (id, name, author) VALUES ('1', 'JAVA', 'author');
 INSERT INTO book (id, name, author) VALUES ('2', 'name', 'author');
 INSERT INTO book (id, name, author) VALUES ('3', 'name', 'author');
 
+SELECT *
+FROM users
+WHERE email = #{email}
