@@ -15,11 +15,16 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @Configuration
 public class WebSecurityConfig {
 
+//    @Bean
+//    public WebSecurityCustomizer configure() {      // 스프링 시큐리티 기능 비활성화
+//        return web -> web.ignoring().requestMatchers(toH2Console())
+//                .requestMatchers("/static/**");
+//    }
+
     @Bean
-    public WebSecurityCustomizer configure() {      // 스프링 시큐리티 기능 비활성화
-        return web -> web.ignoring().requestMatchers(toH2Console())
-                .requestMatchers("/static/**");
-    }
+        public WebSecurityCustomizer configure() {      // 스프링 시큐리티 기능 비활성화
+            return web -> web.ignoring().requestMatchers("/static/**");
+        }
 
     // 특정 HTTP 요청에 대한 웹 기반 보안 구성
     @Bean
